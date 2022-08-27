@@ -49,4 +49,25 @@ const getAllBooksHandler = () => ({
     books
   }
 })
-export { addNoteHandler, getAllBooksHandler }
+
+const getNoteByIdHandler = (request, h) => {
+  // eslint-disable-next-line no-undef
+  const { id } = request.params
+  const book = books.filter((n) => n.id === id)[0]
+  if (book !== undefined) {
+    return {
+      status: 'success',
+      data: {
+        book
+      }
+    }
+  }
+  const response = h.response({
+    status: 'fail',
+    message: 'Catatan tidak ditemukan'
+  })
+  response.code(404)
+  return response
+}
+
+export { addNoteHandler, getAllBooksHandler, getNoteByIdHandler }
